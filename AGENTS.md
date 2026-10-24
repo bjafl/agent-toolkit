@@ -36,4 +36,18 @@ claude plugin validate .   # check plugin + marketplace manifests
 5. Tests in `tests/test_<tool>.py`. `tests/test_contract.py` checks steps 2 and 4 and the help epilog for every tool.
 6. Add a row to the tools table in `README.md`.
 
-Bump `version` in both `pyproject.toml` and `.claude-plugin/plugin.json` together.
+## Versioning
+
+Bump the version before pushing any change that affects the tools: code in `src/`, skills, dependencies or the plugin manifest. Without a bump, `uv tool upgrade` and `/plugin` don't see the update. Tests, README and AGENTS.md changes alone need no bump.
+
+- **patch** (0.2.0 → 0.2.1): bug fixes, wording in skills or `--help`.
+- **minor** (0.2.0 → 0.3.0): new tool, new flag, new input/output format, changed output.
+- Before 1.0, breaking changes are minor bumps too; call them out in the commit message.
+
+Steps:
+
+1. Set the same `version` in `pyproject.toml` and `.claude-plugin/plugin.json` (`tests/test_contract.py` checks they match), then `uv lock`.
+2. Commit as `Bump version to X.Y.Z`.
+3. `git tag -a vX.Y.Z -m vX.Y.Z && git push --follow-tags`.
+
+The `pre-push` hook in `.githooks/` refuses a push with tool changes since the last tag and an unchanged version. Enable it once per clone: `git config core.hooksPath .githooks`.

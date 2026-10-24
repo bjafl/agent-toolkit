@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# Refuse to push changes that affect the tools without a version bump, so
+# `uv tool upgrade` and `/plugin` can see there is an update.
+set -euo pipefail
+
+last=$(git describe --tags --abbrev=0 --match 'v*' 2>/dev/null) || exit 0
+version=$(sed -n 's/^version = "\(.*\)"$/\1/p' pyproject.toml)
+changed=$(git diff --name-only "$last"..HEAD -- src/ skills/ .claude-plugin/plugin.json pyproject.toml uv.lock)
+
+if [[ -n "$changed" && "v$version" == "$last" ]]; then
+    echo "pre-push: tool changes since $last but version is still $version:" >&2
+    sed 's/^/  /' <<<"$changed" >&2
+    echo "Bump version in pyproject.toml and .claude-plugin/plugin.json (see AGENTS.md)." >&2
+    exit 1
+fi
+
+if [[ "v$version" != "$last" ]] && ! git rev-parse -q --verify "refs/tags/v$version" >/dev/null; then
+    echo "pre-push: version $version has no tag. Run: git tag -a v$version -m v$version && git push --follow-tags" >&2
+fi
