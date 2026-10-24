@@ -16,7 +16,7 @@ During development, from inside the repo: `uv run <command>`.
 
 | Command | Description |
 |---------|-------------|
-| _none yet_ | |
+| `doc2md` | Convert PDF, DOCX, ODT, HTML, EPUB, PPTX, XLSX … to Markdown. `--images` extracts media, `-o` sets output dir. |
 
 ## Conventions
 

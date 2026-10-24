@@ -4,11 +4,16 @@ version = "0.1.0"
 description = "CLI tools for AI agents"
 readme = "README.md"
 requires-python = ">=3.12"
-dependencies = []
+dependencies = [
+    "markitdown[all]>=0.1.5",
+    "pymupdf>=2",
+    "pypandoc-binary>=1.17",
+]
 
 # One entry point per tool: <command> = "agent_toolkit.<module>:main"
 # Install globally (editable) with: uv tool install --editable .
 [project.scripts]
+doc2md = "agent_toolkit.doc2md:main"
 
 [dependency-groups]
 dev = ["pytest>=8", "ruff>=0.6"]
