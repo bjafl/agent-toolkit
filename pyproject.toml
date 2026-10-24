@@ -10,12 +10,14 @@ dependencies = [
     "markitdown[outlook,pptx,xls,xlsx]>=0.1.5",
     "pymupdf>=2",
     "pypandoc-binary>=1.17",
+    "typst>=0.15.0",
 ]
 
 # One entry point per tool: <command> = "agent_toolkit.<module>:main"
 # Install globally (editable) with: uv tool install --editable .
 [project.scripts]
 doc2md = "agent_toolkit.doc2md:main"
+md2doc = "agent_toolkit.md2doc:main"
 
 [project.optional-dependencies]
 ocr = [

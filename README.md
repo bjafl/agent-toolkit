@@ -7,10 +7,12 @@ CLI tools for AI agents, usable by humans too. Each tool is a plain command (std
 | Command | Description |
 |---------|-------------|
 | `doc2md` | Convert documents and e-mails to Markdown: PDF, DOCX, ODT, RTF, HTML, EPUB, PPTX, XLSX, EML, MSG … |
+| `md2doc` | Export Markdown to PDF or DOCX (A4, no LaTeX needed), with optional Word or Typst template. |
 
 ```sh
 doc2md report.pdf                    # -> report.md next to the input
 doc2md mail.eml --images -o notes/   # e-mail with frontmatter; attachments to notes/mail_media/
+md2doc notes.md --to pdf --to docx   # -> notes.pdf and notes.docx
 ```
 
 Run `<command> --help` for all options and examples.
@@ -57,4 +59,4 @@ See [AGENTS.md](AGENTS.md) for conventions and how to add a tool.
 
 ## License
 
-MIT for this repository's code. Dependencies keep their own licenses: notably PyMuPDF (AGPL-3.0) and pandoc, bundled via pypandoc-binary (GPL-2.0).
+MIT for this repository's code. Dependencies keep their own licenses: notably PyMuPDF (AGPL-3.0), pandoc, bundled via pypandoc-binary (GPL-2.0), and Typst (Apache-2.0).
