@@ -1,6 +1,6 @@
 ---
 name: doc2md
-description: Convert documents (PDF, DOCX, ODT, RTF, HTML, EPUB, PPTX, XLSX, ...) to Markdown with the doc2md CLI. Use when the user asks to convert, read, summarize or extract text from a document file that is not already plain text, or when you need to read a binary office/PDF file yourself.
+description: Convert documents and e-mails (PDF, DOCX, ODT, RTF, HTML, EPUB, PPTX, XLSX, EML, MSG, ...) to Markdown with the doc2md CLI. Use when the user asks to convert, read, summarize or extract text from a document file that is not already plain text, or when you need to read a binary office/PDF file yourself.
 ---
 
 # doc2md
@@ -37,6 +37,7 @@ doc2md slides.pptx --images -o out/   # also extract images to out/slides_media/
 | Input | Engine | Notes |
 |---|---|---|
 | `.pdf` | pymupdf | Keeps headings, tables and reading order. Scanned pages are OCR'd: RapidOCR if installed with the `ocr` extra (stderr says `Using RapidOCR`), otherwise Tesseract, which is slower and less accurate. |
+| `.eml` | stdlib `email` + pandoc | YAML frontmatter with `subject`, `from`, `to`, `cc`, `date` (ISO 8601) and `attachments`, then `# <subject>` and the body (HTML part preferred). Quoted-printable and legacy charsets are decoded. With `--images`, attachments and inline images are saved to `<name>_media/`; without it they are only listed. Attachments are not converted: run `doc2md` on the saved files if needed. |
 | `.docx .odt .rtf .html .htm .epub` | pandoc | Highest fidelity. Complex formatting can come out as inline HTML. |
 | everything else | markitdown | `.pptx` gives one section per slide, `.xlsx` and `.xls` one table per sheet, `.msg` the Outlook e-mail. Plain text formats (`.csv`, `.json`, `.xml`) also work. Audio, images and YouTube are not installed. |
 

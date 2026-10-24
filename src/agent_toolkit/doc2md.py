@@ -1,6 +1,7 @@
-"""Convert DOCX/PDF/etc. to Markdown.
+"""Convert DOCX/PDF/EML/etc. to Markdown.
 
-PDF via pymupdf4llm, pandoc formats via pypandoc, everything else via markitdown.
+PDF via pymupdf4llm, e-mail via agent_toolkit.eml, pandoc formats via pypandoc,
+everything else via markitdown.
 Prints each written .md path to stdout; errors go to stderr.
 """
 
@@ -19,6 +20,10 @@ def convert(src: Path, media: Path | None) -> str:
 
         kw = {"write_images": True, "image_path": str(media)} if media else {}
         return pymupdf4llm.to_markdown(str(src), **kw)
+    if ext == ".eml":
+        from agent_toolkit.eml import eml_to_markdown
+
+        return eml_to_markdown(src, media)
     if ext in PANDOC_EXT:
         import pypandoc
 
@@ -52,6 +57,9 @@ formats:
   .pdf                                    pymupdf (OCR for scanned pages: RapidOCR with the
                                           [ocr] extra, else Tesseract if installed)
   .docx .odt .rtf .html .htm .epub        pandoc
+  .eml                                    e-mail: YAML frontmatter (from, to, date,
+                                          attachments) + body; --images saves
+                                          attachments and inline images
   anything else (.pptx .xlsx .xls ...)    markitdown
 
 output:
@@ -67,7 +75,11 @@ examples:
     )
     ap.add_argument("files", nargs="+", type=Path, help="input files")
     ap.add_argument("-o", "--outdir", type=Path, help="output dir (default: next to input)")
-    ap.add_argument("--images", action="store_true", help="extract images to <name>_media/")
+    ap.add_argument(
+        "--images",
+        action="store_true",
+        help="save images (and e-mail attachments) to <name>_media/",
+    )
     a = ap.parse_args()
 
     failed = 0
