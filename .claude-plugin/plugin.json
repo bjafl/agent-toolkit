@@ -1,0 +1,8 @@
+{
+  "name": "agent-toolkit",
+  "version": "0.1.0",
+  "description": "CLI tools for AI agents, with a skill per tool telling Claude when and how to use it.",
+  "author": { "name": "bjafl" },
+  "repository": "https://github.com/bjafl/agent-toolkit",
+  "license": "MIT"
+}

@@ -1,0 +1,11 @@
+{
+  "name": "agent-toolkit",
+  "owner": { "name": "bjafl" },
+  "plugins": [
+    {
+      "name": "agent-toolkit",
+      "source": "./",
+      "description": "CLI tools for AI agents, with a skill per tool telling Claude when and how to use it."
+    }
+  ]
+}

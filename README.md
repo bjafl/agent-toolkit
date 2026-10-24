@@ -1,34 +1,41 @@
 # agent-toolkit
 
-CLI tools for AI agents. One Python package, one command per tool.
-
-## Install
-
-```sh
-uv tool install --editable .   # puts every command on PATH, code changes apply immediately
-```
-
-Re-run the install after adding a new command or dependency.
-
-During development, from inside the repo: `uv run <command>`.
+CLI tools for AI agents, usable by humans too. Each tool is a command on PATH and a Claude Code skill that tells Claude when to use it.
 
 ## Tools
 
 | Command | Description |
 |---------|-------------|
-| `doc2md` | Convert PDF, DOCX, ODT, HTML, EPUB, PPTX, XLSX … to Markdown. `--images` extracts media, `-o` sets output dir. |
+| `doc2md` | Convert PDF, DOCX, ODT, HTML, EPUB, PPTX, XLSX … to Markdown. |
 
-## Conventions
+Run `<command> --help` for usage and examples.
 
-- Result on stdout, logs and progress on stderr.
-- Useful `--help` — it's how agents learn the tool.
-- `--json` for structured output where the result is data.
-- Non-zero exit code with a clear message on failure.
-- Import heavy dependencies inside `main()`, not at module top level.
+## Install
 
-## Adding a tool
+**Commands on PATH** (for you, scripts and any agent with a shell):
 
-1. Create `src/agent_toolkit/<tool>.py` with a `main()` function.
-2. Register it under `[project.scripts]` in `pyproject.toml`.
-3. `uv add <deps>`, then re-run `uv tool install --editable .`.
-4. Add a row to the table above.
+```sh
+uv tool install --editable .     # from a clone; code changes apply immediately
+uv tool install git+https://github.com/bjafl/agent-toolkit   # without a clone
+```
+
+Add the `ocr` extra for better OCR of scanned PDFs (RapidOCR, about 100 MB extra):
+`uv tool install --editable '.[ocr]'`.
+
+Re-run the install after a new command or dependency is added. Commands land in `~/.local/bin`.
+
+**Claude Code plugin** (adds the skills), typed at the Claude Code prompt:
+
+```
+/plugin install agent-toolkit --marketplace bjafl/agent-toolkit
+```
+
+The repository is private, so both installs need GitHub access set up locally. The skills use the command on PATH if present and otherwise fall back to `uv run` inside the plugin.
+
+## Development
+
+See [AGENTS.md](AGENTS.md) for conventions and how to add a tool.
+
+## License
+
+MIT for this repository's code. Dependencies keep their own licenses: notably PyMuPDF (AGPL-3.0) and pandoc, bundled via pypandoc-binary (GPL-2.0).

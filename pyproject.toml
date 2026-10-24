@@ -3,9 +3,11 @@ name = "agent-toolkit"
 version = "0.1.0"
 description = "CLI tools for AI agents"
 readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
 requires-python = ">=3.12"
 dependencies = [
-    "markitdown[all]>=0.1.5",
+    "markitdown[outlook,pptx,xls,xlsx]>=0.1.5",
     "pymupdf>=2",
     "pypandoc-binary>=1.17",
 ]
@@ -14,6 +16,12 @@ dependencies = [
 # Install globally (editable) with: uv tool install --editable .
 [project.scripts]
 doc2md = "agent_toolkit.doc2md:main"
+
+[project.optional-dependencies]
+ocr = [
+    "onnxruntime>=1.20.1",
+    "rapidocr>=3",
+]
 
 [dependency-groups]
 dev = ["pytest>=8", "ruff>=0.6"]
