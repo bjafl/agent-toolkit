@@ -8,11 +8,13 @@ CLI tools for AI agents, usable by humans too. Each tool is a plain command (std
 |---------|-------------|
 | `doc2md` | Convert documents and e-mails to Markdown: PDF, DOCX, ODT, RTF, HTML, EPUB, PPTX, XLSX, EML, MSG … |
 | `md2doc` | Export Markdown to PDF or DOCX (A4, no LaTeX needed), with optional Word or Typst template. |
+| `learn2md` | Fetch Microsoft Learn articles, or a whole doc set from its toc.json, as Markdown. |
 
 ```sh
 doc2md report.pdf                    # -> report.md next to the input
 doc2md mail.eml --images -o notes/   # e-mail with frontmatter; attachments to notes/mail_media/
 md2doc notes.md --to pdf --to docx   # -> notes.pdf and notes.docx
+learn2md https://learn.microsoft.com/en-us/<article> -o docs/   # Learn page -> docs/<article>.md
 ```
 
 Run `<command> --help` for all options and examples.
